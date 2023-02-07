@@ -8,14 +8,6 @@ from account.models import Account, AccountAddress
 # Create your models here.
 
 
-# class OrderPriceDiscount(models.Model):
-#     code = models.CharField(max_length=20)
-#     Price = models.IntegerField(default=0)
-#     PERCENT = 1
-#     PRICE = 2
-#     TYPE_CHOICES = ((PERCENT, 'درصدی'), (PRICE, 'ریالی'))
-#     type = models.IntegerField(choices=TYPE_CHOICES, blank=True)
-
 class Order(models.Model):
     customer = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
     address = models.ForeignKey(AccountAddress, on_delete=models.DO_NOTHING)
