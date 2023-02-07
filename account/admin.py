@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin
 
 from account.models import Account, AccountAddress, City, State
 
-
 # Register your models here.
 """
 setting Account fields to show in admin Panel
