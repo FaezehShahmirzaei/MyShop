@@ -89,7 +89,7 @@ class City(models.Model):
 
 
 class AccountAddress(models.Model):
-    city = models.ForeignKey(City, on_delete=models.DO_NOTHING , default=1)
+    city = models.ForeignKey(City, on_delete=models.DO_NOTHING, default=1)
     address = models.CharField(max_length=50, null=False, blank=False)
     postalcode = models.CharField(max_length=12, validators=[
         MinLengthValidator(10, 'the field must contain at least 10 characters')])
