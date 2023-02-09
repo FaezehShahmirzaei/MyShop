@@ -48,8 +48,8 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.name, self.price}'
-
-    @price
-    def price(self):
-        return self.price - self.discount
+    #
+    # @price
+    # def price(self):
+    #     return self.price - self.discount
 
