@@ -30,11 +30,11 @@ class MyAccountManager(BaseUserManager):
 
 
 def get_profile_image_path(self, filename):
-    return f'../media/profile_images/{self.pk}/{"profile_image.png"}'
+    return f'./media/profile_images/{self.pk}/{"profile_image.png"}'
 
 
 def get_default_profile_image():
-    return "../media/profile_images/prof1.png"
+    return "./media/profile_images/prof1.png"
 
 
 class Account(AbstractBaseUser):

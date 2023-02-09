@@ -38,16 +38,16 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     price = models.IntegerField(default=0)
-    product_image = models.ImageField(upload_to='product_images/')
+    product_image = models.ImageField(upload_to='./media/product_images/')
     unavailable = 1
     available = 2
     STATUS_CHOICES = ((unavailable, 'ناموجود'), (available, 'موجود'))
     status = models.IntegerField(choices=STATUS_CHOICES, blank=True)
     description = models.TextField()
-    discount = models.ManyToManyField(Discount)
+    discount = models.ManyToManyField(Discount,blank=True)
 
     def __str__(self):
-        return f'{self.name, self.price}'
+        return f'{self.name}, {self.price}'
     #
     # @price
     # def price(self):
