@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brand</title>
+</head>
+<body>
+<form  method="POST">
+    {% csrf_token %}
+    <div>
+        <lable for="">Brand name:</lable>
+        <input type="text" name="name">
+        {{ form }}
+        <botton type="submit">submit</botton>
+
+    </div>
+</form>
+</body>
+</html>
