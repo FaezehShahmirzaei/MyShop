@@ -7,6 +7,13 @@ from account.models import Account, AccountAddress
 # from datetime import date
 # Create your models here.
 
+class Cart(models.Model):
+    code = models.CharField(max_length=20)
+    price = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.code, self.price}'
+
 
 class Order(models.Model):
     customer = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
@@ -19,7 +26,7 @@ class Order(models.Model):
     RECEIVED = 3
     STATUS_CHOICES = ((INSERTED, 'سفارش جدید'), (IN_WAY, 'در حال بسته بندی'), (RECEIVED, 'دریافت شده'))
     status = models.IntegerField(choices=STATUS_CHOICES, blank=True)
-    discount_code = models.CharField(max_length=20, null=True)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.pk}, {self.customer}, {self.status}'
@@ -30,24 +37,6 @@ class OrderDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.RESTRICT)
     count = models.IntegerField()
     price = models.IntegerField()
-    price_discount = models.IntegerField(null=True)
-    percent_discount = models.IntegerField(null=True)
 
     def __str__(self):
         return f'{self.order, self.price, self.count, self.product}'
-#
-#
-# class OrderPriceDiscount(models.Model):
-#     code = models.CharField(max_length=20)
-#     price = models.IntegerField(default=0)
-#     given_by = models.OneToOneField(Order, on_delete=models.CASCADE, primary_key=True)
-#
-#     def __str__(self):
-#         return f'{self.code, self.price}'
-
-# class OrderDiscount(models.Model):
-#     order = models.ForeignKey(Order, on_delete=models.RESTRICT)
-#     discount = models.ForeignKey(Discount, on_delete=models.RESTRICT)
-#
-#     def __str__(self):
-#         return f'{self.order, self.discount}'
