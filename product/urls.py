@@ -1,9 +1,9 @@
 from django.contrib import admin
-from django.urls import path
-
-from . import views
+from django.urls import path, include
+from .views import ProductList
 
 urlpatterns = [
-    path('product/brand/', views.brand_form,name='brand'),
+    path('',ProductList.as_view()),
 
+    # path('brand/', BrandListView.as_view(), name='brand_list'),
 ]

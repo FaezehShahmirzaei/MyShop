@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.shortcuts import render
-from . import models
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Brand, Product
 
 
-# Create your views here.
+class ProductList(ListView):
+    model = Product
 
-def brand_form(request):
-    if request.method == "POST":
-        name = request.POST.get('name')
-        c = models.Brand()
-        c.name=name
-        c.save()
-    return render(request,'brad/brand.html')
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ProductList, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("-id")
+        return qs
+
+
+class ProductDetail(DetailView):
+    model = Product
