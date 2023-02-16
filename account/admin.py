@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin
 
 from account.models import Account, AccountAddress, City, State
 
-# Register your models here.
 """
 setting Account fields to show in admin Panel
 """
@@ -20,7 +19,35 @@ class AccountAdmin(UserAdmin):
     fieldsets = ()
 
 
+class StateAdmin(admin.ModelAdmin):
+    list_display = ['name', ]
+    search_fields = ('name',)
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
+
+class CityAdmin(admin.ModelAdmin):
+    list_display = ['name', 'state', ]
+    search_fields = ('name', 'state',)
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
+
+class AccountAddressAdmin(admin.ModelAdmin):
+    list_display = ['account', 'city', 'address', 'postalcode', 'receiver_mobile', ]
+    search_fields = ('account', 'city', 'address', 'postalcode', 'receiver_mobile',)
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
+
+# Register your models here.
 admin.site.register(Account, AccountAdmin)
-admin.site.register(AccountAddress)
-admin.site.register(City)
-admin.site.register(State)
+admin.site.register(AccountAddress, AccountAddressAdmin)
+admin.site.register(City, CityAdmin)
+admin.site.register(State, StateAdmin)

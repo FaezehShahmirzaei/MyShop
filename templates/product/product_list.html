@@ -5,21 +5,30 @@
     <title>Product </title>
 </head>
 <body>
+<form>
+    <ul>
+        <!-- Iterate over object_list -->
+        {% for object in object_list %}
+        <div>
+            <br>
+            <!-- Display Objects -->
+            <li>{{ object.name }}</li>
+            <li>{{ object.description }}</li>
+            <li>{{ object.brand }}</li>
+            <li>{{ object.category }}</li>
+            <li>{{ object.price }}</li>
+            <li>{{ object.product_image }}</li>
+            <li>{{ object.status }}</li>
+            <li>{{ object.description }}</li>
+            <li>{{ object.discount }}</li>
+        </div>
 
-<ul>
-    <!-- Iterate over object_list -->
-    {% for object in object_list %}
-    <!-- Display Objects -->
-    <li>{{ object.name }}</li>
-    <li>{{ object.description }}</li>
-<!--    {{% form.as_p %}}-->
 
-
-    <!-- If object_list is empty -->
-    {% empty %}
-    <li>No objects yet.</li>
-    {% end for %}
-</ul>
-
+        <!-- If object_list is empty -->
+        {% empty %}
+        <li>No objects yet.</li>
+        {% endfor %}
+    </ul>
+</form>
 </body>
 </html>
