@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product </title>
+</head>
+<body>
+<form>
+    <ul>
+        <!-- Iterate over object_list -->
+        {% for object in object_list %}
+        <div>
+            <br>
+            <!-- Display Objects -->
+            <li>{{ object.name }}</li>
+            <li>{{ object.description }}</li>
+            <li>{{ object.brand }}</li>
+            <li>{{ object.category }}</li>
+            <li>{{ object.price }}</li>
+            <li>{{ object.product_image }}</li>
+            <li>{{ object.status }}</li>
+            <li>{{ object.description }}</li>
+            <li>{{ object.discount }}</li>
+        </div>
+
+
+        <!-- If object_list is empty -->
+        {% empty %}
+        <li>No objects yet.</li>
+        {% endfor %}
+    </ul>
+</form>
+</body>
+</html>
