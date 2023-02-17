@@ -20,15 +20,18 @@ from django.conf.urls.static import static
 
 import account.views
 from product import views
-from account.views import register_view, signin,logout
+from account.views import register_view, signin, logout, contact
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/', include('product.urls')),
     path('', include('account.urls')),
+    path('index', account.views.index),
     path('signin', account.views.signin),
     path('logout', account.views.logout),
     path('about', account.views.about),
     path('login', account.views.register_view),
+    path('contact', account.views.contact),
 
 ]
