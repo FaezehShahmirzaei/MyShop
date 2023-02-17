@@ -18,12 +18,17 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+import account.views
 from product import views
-from account.views import (register_view)
+from account.views import register_view, signin,logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/', include('product.urls')),
-    path('account/', include('account.urls')),
-    path('signin', register_view,name="signin")
+    path('', include('account.urls')),
+    path('signin', account.views.signin),
+    path('logout', account.views.logout),
+    path('about', account.views.about),
+    path('login', account.views.register_view),
+
 ]
