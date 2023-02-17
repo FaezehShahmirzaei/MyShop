@@ -4,8 +4,6 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Brand, Product
 
 
-def index(request):
-    return render(request, 'index.html')
 
 
 class ProductList(ListView):

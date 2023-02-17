@@ -24,7 +24,26 @@ def register_view(request, *args, **kwargs):
                 return redirect("index")
         else:
             context['registration_form'] = form
-        return render(request, 'account/signin.html', context)
+        return render(request, 'signin', context)
 
     # def home(request):
     #     return render(request, 'home.html')
+
+
+def signin(request):
+    return render(request, 'signin.html')
+
+
+def index(request):
+    return render(request, 'index.html')
+
+
+def logout(request):
+    return render(request, 'logout.html')
+
+
+def about(request):
+    return render(request, 'about.html')
+
+def contact(request):
+    return render(request,'contact.html')
