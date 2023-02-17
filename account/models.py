@@ -38,6 +38,7 @@ def get_default_profile_image():
 
 
 class Account(AbstractBaseUser):
+    # password = models.CharField(max_length=128)
     email = models.EmailField(verbose_name='email', max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
@@ -64,7 +65,7 @@ class Account(AbstractBaseUser):
         return f"{self.username}"
 
     def get_profile_image_filename(self):
-        return str(self.profile_image)[str(self.profile_image).index(f'../media/profile_images/{self.pk}/'):]
+        return str(self.profile_image)[str(self.profile_image).index(f'./media/profile_images/{self.pk}/'):]
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
