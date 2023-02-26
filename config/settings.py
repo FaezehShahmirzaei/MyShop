@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'product',
-    'order'
+    'order',
+    'core',
 ]
 X_FRAME_OPTIONS = 'SAME-ORIGIN'
 MIDDLEWARE = [

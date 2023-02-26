@@ -38,7 +38,6 @@ def get_default_profile_image():
 
 
 class Account(AbstractBaseUser):
-    # password = models.CharField(max_length=128)
     email = models.EmailField(verbose_name='email', max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
@@ -58,7 +57,9 @@ class Account(AbstractBaseUser):
 
     objects = MyAccountManager()
 
+    '''1- each field in uernamefield must be unique .2- username field is a field  that users  are authenticate with that '''
     USERNAME_FIELD = 'email'
+    ''' this field is requeired when creating a user'''
     REQUIRED_FIELDS = ['username']
 
     def __str__(self):
@@ -69,9 +70,16 @@ class Account(AbstractBaseUser):
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
+        # return True
 
     def has_module_perms(self, app_lable):
         return True
+
+    def is_staff_user(self):
+        return self.is_staff
+
+    def is_active_user(self):
+        return self.is_active
 
 
 class State(models.Model):
@@ -103,3 +111,12 @@ class AccountAddress(models.Model):
     #
     # def set_default_address(self):
     #
+
+
+class OtpCode(models.Model):
+    phone_number = models.CharField(max_length=11)
+    code = models.PositiveSmallIntegerField()
+    created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.phone_number} , {self.code} , {self.created}'
