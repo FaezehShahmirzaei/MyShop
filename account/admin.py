@@ -14,15 +14,15 @@ class AccountAdmin(UserAdmin):
 
     list_display = (
         'email', 'username', 'date_joined', 'last_login', 'is_admin', 'is_active', 'is_staff', 'is_customer',
-        'is_superuser', 'gender', 'password',)
+        'is_superuser', 'gender', 'password','phone','mobile_number',)
     fieldsets = (
-        ('main', {'fields': ('email', 'username', 'date_joined', 'last_login', 'gender', 'password',)}),
+        ('main', {'fields': ('email', 'username', 'date_joined', 'last_login', 'gender', 'password','phone','mobile_number',),}),
         ('permission', {'fields': ('is_admin', 'is_active', 'is_staff', 'is_customer', 'is_superuser')}),
     )
     # add_fieldsets = ('change', {'email', 'username', 'date_joined', 'last_login', 'is_admin', 'is_active',
     #                             'is_staff', 'is_customer', 'is_superuser', 'gender', 'password', })
 
-    search_fields = ('email', 'username')
+    search_fields = ('email', 'username','mobile_number',)
     readonly_fields = ('id', 'date_joined', 'last_login')
     filter_horizontal = ()
     list_filter = ('is_admin',)

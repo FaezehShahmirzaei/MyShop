@@ -37,10 +37,11 @@ def register_view(request, *args, **kwargs):
 
 class UserRegisterView(View):
     form_class = UserRegistrationForm
+    template_name = 'account/register.html'
 
     def get(self, request):
         form = self.form_class
-        return render(request, 'account/register.html', {'form': form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -51,12 +52,13 @@ class UserRegisterView(View):
             request.session['user_registration_info'] = {
                 'phone-number': form.cleaned_data['phone'],
                 'email': form.cleaned_data['email'],
-                # 'username':form.cleaned_data['username'],
+                'username': form.cleaned_data['username'],
+                'raw-password': form.cleaned_data['password1'],
                 'password': form.cleaned_data['password2'],
             }
             messages.success(request, 'we send you a code', 'success')
             return redirect('account:verify_code')
-        return redirect('core:home')
+        return render(request, self.template_name, {'form': form})
 
 
 class UserRegistrationVerifyCodeView(View):
@@ -68,9 +70,7 @@ class UserRegistrationVerifyCodeView(View):
 
     def post(self, request):
         user_session = request.session['user_registration_info']
-        print(user_session)
-        code_instance = OtpCode.objects.get(phone_number=user_session['phone_number'])
-
+        code_instance = OtpCode.objects.get(phone_number=user_session['phone-number'])
         form = self.form_class(request.POST)
         if form.is_valid():
             cd = form.cleaned_data

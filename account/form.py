@@ -61,6 +61,34 @@ class UserRegistrationForm(forms.Form):
     password1 = forms.CharField(label='password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='confirm password', widget=forms.PasswordInput)
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        print(email)
+        user = Account.objects.filter(email=email).exists()
+        if user:
+            raise ValidationError('This email is already exists.')
+        return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        user = Account.objects.filter(mobile_number=phone).exists()
+        if user:
+            raise ValidationError('This mobile is already exists.')
+        return phone
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        user = Account.objects.filter(username=username).exists()
+        if user:
+            raise ValidationError('This username is already exists.')
+        return username
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password1'] and cd['password2'] and cd['password1'] != cd['password2']:
+            raise ValidationError('password dont match')
+        return cd['password2']
+
 
 class VerifyCodeForm(forms.Form):
     code = forms.IntegerField()

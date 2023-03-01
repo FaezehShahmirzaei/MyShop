@@ -40,6 +40,8 @@ def get_default_profile_image():
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name='email', max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
+    phone = models.CharField(max_length=11, null=True)
+    mobile_number = models.CharField(max_length=11, null=True)
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -57,7 +59,8 @@ class Account(AbstractBaseUser):
 
     objects = MyAccountManager()
 
-    '''1- each field in uernamefield must be unique .2- username field is a field  that users  are authenticate with that '''
+    '''1- each field in uernamefield must be unique .2- username field is a field  that users 
+        are authenticate with that '''
     USERNAME_FIELD = 'email'
     ''' this field is requeired when creating a user'''
     REQUIRED_FIELDS = ['username']
