@@ -45,4 +45,4 @@ urlpatterns = [
     path('product/login', account.views.register_view),
     path('product/contact', account.views.contact),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

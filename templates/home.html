@@ -5,5 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <h3>helo user</h3>
+    {% for prod in product %}
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{{ prod.product_image.url }}">
+            <div class="card-body">
+                <p class="card-text">{{ prod.description }}</p>
+                <a href="{{ prod.get_absolute_url }}" class="card-title">{{ prod.name }}</a>
+
+            </div>
+        </div>
+
+    {% endfor %}
 {% endblock %}
+
