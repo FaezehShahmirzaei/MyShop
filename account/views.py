@@ -1,8 +1,13 @@
+import random
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
-
-from .form import UserCreationForm, RegistrationForm
+from .form import UserCreationForm, RegistrationForm, UserRegistrationForm, VerifyCodeForm
+from django.views import View
+from core.utils import send_otp_code
+from django.contrib import messages
+from .models import Account, OtpCode
 
 
 # Create your views here.
@@ -15,8 +20,8 @@ def register_view(request, *args, **kwargs):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            email = form.cleandate.get('email').lower()
-            raw_password = form.cleandate.get('password')
+            email = form.cleaned_data.get('email').lower()
+            raw_password = form.cleaned_data.get('password')
             account = authenticate(email=email, password=raw_password)
             login(request, account)
             destination = kwargs.get("next")
@@ -24,10 +29,60 @@ def register_view(request, *args, **kwargs):
                 return redirect("index")
         else:
             context['registration_form'] = form
-        return render(request, 'signin', context)
+        return render(request, 'index', context)
 
     # def home(request):
     #     return render(request, 'home.html')
+
+
+class UserRegisterView(View):
+    form_class = UserRegistrationForm
+    template_name = 'account/register.html'
+
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            random_code = random.randint(1000, 9999)
+            send_otp_code(form.cleaned_data['phone'], random_code)
+            OtpCode.objects.create(phone_number=form.cleaned_data['phone'], code=random_code)
+            request.session['user_registration_info'] = {
+                'phone-number': form.cleaned_data['phone'],
+                'email': form.cleaned_data['email'],
+                'username': form.cleaned_data['username'],
+                'raw-password': form.cleaned_data['password1'],
+                'password': form.cleaned_data['password2'],
+            }
+            messages.success(request, 'we send you a code', 'success')
+            return redirect('account:verify_code')
+        return render(request, self.template_name, {'form': form})
+
+
+class UserRegistrationVerifyCodeView(View):
+    form_class = VerifyCodeForm
+
+    def get(self, request):
+        form = self.form_class
+        return render(request, 'account/verify.html', {'form': form})
+
+    def post(self, request):
+        user_session = request.session['user_registration_info']
+        code_instance = OtpCode.objects.get(phone_number=user_session['phone-number'])
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            if cd['code'] == code_instance.code:
+                Account.objects.create_user(user_session['email'], user_session['username'], user_session['password'])
+                code_instance.delete()
+                messages.success(request, 'you are registered!', 'success')
+                return redirect('core:home')
+            else:
+                messages.error(request, 'This code is note correct', 'danger')
+                return redirect('account:verify_code')
+        return redirect('core:home')
 
 
 def signin(request):

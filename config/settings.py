@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'product',
-    'order'
+    'order',
+    'core',
 ]
 X_FRAME_OPTIONS = 'SAME-ORIGIN'
 MIDDLEWARE = [
@@ -80,6 +81,8 @@ TEMPLATES = [
 ]
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    BASE_DIR /"static",
+
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'

@@ -59,7 +59,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="products">Our Products</a>
+                        <a class="nav-link" href="product">Our Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about">About Us</a>
@@ -91,6 +91,7 @@
             <div class="col-md-8">
                 <div class="contact-form">
                     <form id="contact" action="" method="post">
+                        {% csrf_token %}
                         <div class="row">
 
                             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -112,7 +113,7 @@
                                 </fieldset>
                             </div>
 
-                            {% for field in registration_form%}
+                            {% for field in registration_form %}
                             <p>
                                 {% for error in field.errors %}
                             <p style="color: red">
@@ -121,9 +122,9 @@
                             {% endfor %}
                             </p>
                             {% endfor %}
-                            {% if registration_form.non_fields_error %}
+                            {% if registration_form.non_field_errors %}
                             <div style="color: red">
-                                <p>{{registration_form.non_fields_error}}</p>
+                                <p>{{registration_form.non_field_errors}}</p>
                             </div>
                             {% endif %}
                             <div class="col-lg-12">

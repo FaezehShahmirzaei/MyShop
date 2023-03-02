@@ -4,8 +4,6 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Brand, Product
 
 
-
-
 class ProductList(ListView):
     model = Product
 
@@ -17,3 +15,7 @@ class ProductList(ListView):
 
 class ProductDetail(DetailView):
     model = Product
+
+
+def products(request):
+    return render(request,'products.html')
