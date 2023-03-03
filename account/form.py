@@ -92,3 +92,10 @@ class UserRegistrationForm(forms.Form):
 
 class VerifyCodeForm(forms.Form):
     code = forms.IntegerField()
+
+
+class UserLoginForm(forms.Form):
+    email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address. ")
+    phone = forms.CharField(label='mobile', max_length=11, help_text='Required.Add a valid mobile.')
+    # username = forms.CharField(max_length=30, help_text='input a username less than 30 character.')
+    password = forms.CharField(label='password', widget=forms.PasswordInput)
