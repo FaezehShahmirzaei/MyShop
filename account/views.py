@@ -3,11 +3,13 @@ import random
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
-from .form import UserCreationForm, RegistrationForm, UserRegistrationForm, VerifyCodeForm
+from .form import UserCreationForm, RegistrationForm, UserRegistrationForm, VerifyCodeForm, UserLoginForm
 from django.views import View
 from core.utils import send_otp_code
 from django.contrib import messages
 from .models import Account, OtpCode
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -83,6 +85,35 @@ class UserRegistrationVerifyCodeView(View):
                 messages.error(request, 'This code is note correct', 'danger')
                 return redirect('account:verify_code')
         return redirect('core:home')
+
+
+class UserLogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        messages.success(request, 'you logged out successfully', 'success')
+        return redirect('core:home')
+
+
+class UserLoginView(View):
+    form_class = UserLoginForm
+    template_name = 'account/login.html'
+
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd=form.cleaned_data
+            user=authenticate(request,phone_number=cd['phoone'],password=cd['password'])
+            if user is None:
+                login(request,user)
+                messages.success(request,'you loged in successfully','info')
+                return redirect('home:home')
+            messages.success(request,'phone por password is wrong ','warning')
+        return render(request,self.template_name, {'form:form'})
+
 
 
 def signin(request):
